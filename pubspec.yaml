@@ -15,15 +15,15 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.2.2+21
+version: 1.0.5+5
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   # GET
-  get: 4.6.1
-  get_storage: 2.0.3
+  get: 4.6.5
+  get_storage: 2.1.1
   # DIO
   dio: 4.0.0
   dio_http_cache: ^0.3.0
@@ -35,23 +35,23 @@ dependencies:
   carousel_slider: 4.0.0
   flutter_svg:
   flutter_staggered_grid_view: 0.4.0
-  image_picker: 0.8.3+2
+  image_picker: 0.8.7+3
 #  cupertino_icons: any
   shimmer: 2.0.0
   # WEB
   webview_flutter: 2.0.10
   flutter_html: 2.1.1
-  url_launcher: 6.0.2
+  url_launcher: 6.1.10
   path_provider:
   path:
   # FIREBASE
 #  cupertino_icons: ^1.0.2
-  firebase_core: ^2.4.1
-  cloud_firestore: ^4.3.1
-  firebase_auth: ^4.2.5
-  firebase_messaging: ^14.2.1
-  firebase_storage: ^11.0.10
-  cached_network_image: 3.2.1
+  firebase_core: ^2.10.0
+  cloud_firestore: ^4.5.3
+  firebase_auth: ^4.4.2
+  firebase_messaging: ^14.4.1
+  firebase_storage: ^11.1.1
+  cached_network_image: 3.2.3
   dropdown_button2: ^1.4.0
   objectbox:
   data_table_2: ^2.3.6
@@ -59,13 +59,14 @@ dependencies:
   syncfusion_flutter_pdf: ^20.2.45
   barcode: ^2.2.3
   barcode_widget: ^2.0.3
-  open_file: ^3.2.1
+#  open_file: ^3.2.1
+  open_file_safe: ^3.2.3
 #  open_file:
 #  firebase_phone_auth_handler:
   # GOOGLE MAPS
-  google_maps_flutter: 2.0.6
-  google_maps_flutter_web: 0.3.0+3
-  google_maps_place_picker: 2.0.0-nullsafety.3
+  google_maps_flutter: 2.2.5
+  google_maps_flutter_web: 0.4.0+7
+  google_maps_place_picker: 2.1.0-nullsafety.3
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -74,7 +75,7 @@ dependencies:
 dependency_overrides:
   provider: 6.0.2
   flutter_math_fork: ^0.5.0
-  permission_handler: ^9.2.0
+#  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:

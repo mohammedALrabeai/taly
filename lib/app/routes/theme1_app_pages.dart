@@ -31,8 +31,11 @@ import '../modules/e_provider/bindings/e_provider_binding.dart';
 import '../modules/e_provider/views/e_provider_e_services_view.dart';
 import '../modules/e_provider/views/e_provider_view.dart';
 import '../modules/e_service/bindings/e_service_binding.dart';
+import '../modules/e_service/bindings/products_binding.dart';
 import '../modules/e_service/views/e_service_view.dart';
 import '../modules/e_service/views/e_service_view2.dart';
+import '../modules/e_service/views/product_detail.dart';
+import '../modules/e_service/views/products.dart';
 import '../modules/favorites/bindings/favorites_binding.dart';
 import '../modules/favorites/views/favorites_view.dart';
 import '../modules/gallery/bindings/gallery_binding.dart';
@@ -83,6 +86,8 @@ class Theme1AppPages {
     GetPage(name: Routes.PHONE_VERIFICATION, page: () => PhoneVerificationView(), binding: AuthBinding()),
     GetPage(name: Routes.E_SERVICE, page: () => EServiceView(), binding: EServiceBinding(), transition: Transition.downToUp),
     GetPage(name: Routes.BOOK_E_SERVICE, page: () => BookEServiceView(), binding: BookEServiceBinding(),/* middlewares: [AuthMiddleware()]*/),
+    GetPage(name: Routes.PRODUCTS, page: () => ProductView(), binding: ProductBinding(),/* middlewares: [AuthMiddleware()]*/),
+    GetPage(name: Routes.PRODUCT_Details, page: () => ProductDetails(), binding: ProductBinding(),/* middlewares: [AuthMiddleware()]*/),
     GetPage(name: Routes.BOOKING_SUMMARY, page: () => BookingSummaryView(), binding: BookEServiceBinding(),/* middlewares: [AuthMiddleware()]*/),
     GetPage(name: Routes.CHECKOUT, page: () => CheckoutView(), binding: CheckoutBinding(), middlewares: [AuthMiddleware()]),
     GetPage(name: Routes.CONFIRMATION, page: () => ConfirmationView(), binding: CheckoutBinding(), middlewares: [AuthMiddleware()]),

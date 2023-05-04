@@ -20,6 +20,8 @@ class Routes {
   static const SUB_CATEGORY = '/sub_category';
   static const E_SERVICE = '/e_service';
   static const BOOK_E_SERVICE = '/book_e_service';
+  static const PRODUCTS = '/products';
+  static const PRODUCT_Details = '/product_details';
   static const BOOKING_SUMMARY = '/booking_summary';
   static const CHECKOUT = '/checkout';
   static const CONFIRMATION = '/confirmation';

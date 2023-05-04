@@ -17,7 +17,7 @@ import '../widgets/e_provider_item_widget.dart';
 import '../widgets/e_service_til_widget.dart';
 import '../widgets/e_service_title_bar_widget.dart';
 import '../widgets/option_group_item_widget.dart';
-Color mcolor=Color(0xffe77f04);
+Color mcolor=Color(0xff575757);
 Color scolor=Color(0xfff8f5f2);
 class EServiceView extends GetView<EServiceController> {
   @override
@@ -38,11 +38,11 @@ class EServiceView extends GetView<EServiceController> {
               // Image.asset("assets/img/background.jpg",fit: BoxFit.fill,),
               SafeArea(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset("assets/img/icon3.png",height: 150,color: Colors.black,).paddingSymmetric(horizontal: 20,vertical: 20),
+                    Image.asset("assets/img/icon3.png",height: 150,).paddingSymmetric(horizontal: 20,vertical: 20),
                     CupertinoActivityIndicator(),
                     // SizedBox(height: 10),
                     // buildCategories(_eService),

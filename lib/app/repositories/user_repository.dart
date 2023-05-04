@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import '../../common/shop_model.dart';
+import '../models/user_khrof_model.dart';
 import '../models/user_model.dart';
 import '../providers/firebase_provider.dart';
 import '../providers/laravel_provider.dart';
 import '../services/auth_service.dart';
+import '../services/firebase_messaging_service.dart';
 
 class UserRepository {
   LaravelApiClient _laravelApiClient;
@@ -49,6 +52,18 @@ class UserRepository {
   Future<bool> signUpWithEmailAndPassword(String email, String password) async {
     _firebaseProvider = Get.find<FirebaseProvider>();
     return _firebaseProvider.signUpWithEmailAndPassword(email, password);
+  }
+  Future<User_Khrof> searchUser(String phone) async {
+    _firebaseProvider = Get.find<FirebaseProvider>();
+    User_Khrof user;
+    var ex=await _firebaseProvider.searchUsers(phone);
+    if (!ex){
+      String token=await Get.find<FireBaseMessagingService>().getToken();
+    await  _firebaseProvider.addUser(User_Khrof(phone: phone,create_at: Timestamp.now(),token: token));
+
+    }
+    user=await _firebaseProvider.getUser(phone);
+    return user;
   }
 
   Future<void> verifyPhone(String smsCode) async {

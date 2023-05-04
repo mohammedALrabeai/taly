@@ -25,7 +25,7 @@ class AddressPickerView extends StatelessWidget {
     return PlacePicker(
       apiKey: Get.find<SettingsService>().setting.value.googleMapsKey,
       initialPosition: Get.find<SettingsService>().address.value.getLatLng(),
-      useCurrentLocation: false,
+      useCurrentLocation: true,
       selectInitialPosition: true,
       usePlaceDetailSearch: true,
       forceSearchOnZoomChanged: true,
@@ -47,8 +47,7 @@ class AddressPickerView extends StatelessWidget {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    TextFieldWidget(
-                      labelText: "Description".tr,
+                    TextFieldWidget(labelText: "Description".tr,
                       hintText: "My Home".tr,
                       initialValue: disc,
                       onChanged: (input) {
@@ -98,7 +97,7 @@ class AddressPickerView extends StatelessWidget {
                         if(back){
                           Get.back();
                         }else {
-                          Get.toNamed(Routes.BOOK_E_SERVICE);
+                          Get.toNamed(Routes.PRODUCTS);
                         }
 
                       },

@@ -35,8 +35,10 @@ import '../controllers/book_e_service_controller.dart';
 class BookEServiceView extends GetView<BookEServiceController> {
   @override
   Widget build(BuildContext context) {
+    controller.step.value = 2;
     return WillPopScope(
       onWillPop: () {
+        return Future.value(true);
         if (controller.step.value == 1) {
           return Future.value(true);
         } else {
@@ -54,9 +56,14 @@ class BookEServiceView extends GetView<BookEServiceController> {
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
             actions: [
-              IconButton(onPressed: (){
-                Get.toNamed(Routes.SETTINGS_LANGUAGE);
-              }, icon: Icon(Icons.language,color: Colors.black38,))
+              IconButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.SETTINGS_LANGUAGE);
+                  },
+                  icon: Icon(
+                    Icons.language,
+                    color: Colors.black38,
+                  ))
             ],
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
@@ -75,7 +82,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
               () => ListView(
                 children: [
                   if (controller.step.value != 1)
-                     Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         "Delivery Address".tr,
@@ -109,12 +116,13 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                   image: DecorationImage(
                                       image: imageProvider,
                                       fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.srgbToLinearGamma()
-    // mode(
-    //                                       Colors.green
-    //                                           .withOpacity(0.4),
-    //                                       BlendMode.colorBurn)
-                                  ),
+                                      colorFilter:
+                                          ColorFilter.srgbToLinearGamma()
+                                      // mode(
+                                      //                                       Colors.green
+                                      //                                           .withOpacity(0.4),
+                                      //                                       BlendMode.colorBurn)
+                                      ),
                                 ),
                                 duration: const Duration(seconds: 1),
                                 child: BackdropFilter(
@@ -163,12 +171,13 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                                 text: controller.currentAddress
                                                         ?.address ??
                                                     "Loading...",
-                                                textStyle: Get.textTheme.subtitle1
+                                                textStyle: Get
+                                                    .textTheme.subtitle1
                                                     .merge(const TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    fontSize: 18)),
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18)),
                                               ),
                                             ),
                                           ),
@@ -560,7 +569,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                       ),
                     ),
                   if (controller.step.value != 1)
-                     Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         "Cart details".tr,
@@ -578,7 +587,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                       onPressed: () {
                         controller.step.value = 2;
                       },
-                      child:  Padding(
+                      child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "cart".tr,
@@ -753,15 +762,12 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                                               ],
                                                             ),
                                                           ),
-
                                                       ]),
                                                 ),
-                                                if (_service.size_id !=
-                                                    null &&
+                                                if (_service.size_id != null &&
                                                     _service.size_id !=
                                                         "null" &&
-                                                    _service.size_id !=
-                                                        "0")
+                                                    _service.size_id != "0")
                                                   Row(
                                                     children: [
                                                       Text(
@@ -945,10 +951,11 @@ class BookEServiceView extends GetView<BookEServiceController> {
                               )),
                         );
                     }),
+                  if (controller.step.value == 1) line(1),
                   if (controller.step.value == 1)
-                    line(1),
-                  if (controller.step.value == 1)
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                   if (controller.step.value == 1)
                     Text(
                       "لحم بلدي طازج ",
@@ -1016,6 +1023,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                   // DropdownButton<int>(
                   //   // value: 1,
                   //     items: getitems()),
+                  if (controller.step.value != 1)
+                    Text("للخدمات الاخرى يرجى الكتابة في الملاحظات",textAlign: TextAlign.center,),
                   if (controller.step.value != 1)
                     TextFieldWidget(
                       onChanged: (input) =>
@@ -1264,7 +1273,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                           part_id: parts.name_part,
                           part_name: parts.name_part));
                       Get.showSnackbar(
-                          Ui.SuccessSnackBar(message: "تمت الاضافة للسلة ".tr));
+                          Ui.SuccessSnackBar(message: "تم الطلب بنجاح ".tr));
                       // await Get.toNamed(Routes.BOOKING_SUMMARY);
                     }
                   : null,
@@ -1305,7 +1314,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text("Price".tr),
+                    Text("Price".tr),
                     Obx(() {
                       return Text("${controller.total} ريال ");
                     }),
@@ -1317,15 +1326,15 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [ Text("Delivery price".tr), Text(" 0 ريال ")],
+                  children: [Text("Delivery price".tr), Text(" 0 ريال ")],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Text(
+                    Text(
                       "Total Price".tr,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 21),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
                     ),
                     Obx(() => Text(
                           "${controller.total.value} ريال ",
@@ -1337,38 +1346,38 @@ class BookEServiceView extends GetView<BookEServiceController> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // SizedBox(
-              //   width: 20,
-              // ),
-              const Text("وقت التسليم "),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0, right: 20),
-                child: Obx(() {
-                  if (!controller.Scadual.value)
-                    return Container(
-                      child: const Text("في اقرب وقت ممكن "),
-                    );
-                  else
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(DateFormat.jm('ar').format(controller.dateinit),
-                            style: Get.textTheme.headline2),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                            '${DateFormat.yMMMMEEEEd(Get.locale.toString()).format(controller.dateinit)}',
-                            style: Get.textTheme.headline2),
-                      ],
-                    );
-                }),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     // SizedBox(
+          //     //   width: 20,
+          //     // ),
+          //     const Text("وقت التسليم "),
+          //     Padding(
+          //       padding: const EdgeInsets.only(bottom: 8.0, right: 20),
+          //       child: Obx(() {
+          //         if (!controller.Scadual.value)
+          //           return Container(
+          //             child: const Text("في اقرب وقت ممكن "),
+          //           );
+          //         else
+          //           return Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Text(DateFormat.jm('ar').format(controller.dateinit),
+          //                   style: Get.textTheme.headline2),
+          //               const SizedBox(
+          //                 width: 8,
+          //               ),
+          //               Text(
+          //                   '${DateFormat.yMMMMEEEEd(Get.locale.toString()).format(controller.dateinit)}',
+          //                   style: Get.textTheme.headline2),
+          //             ],
+          //           );
+          //       }),
+          //     ),
+          //   ],
+          // ),
           Row(
             children: [
               Expanded(
@@ -1405,104 +1414,111 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                   true))
                               ? () async {
                                   final authService = Get.find<AuthService>();
-                                  bool auth=false;
+                                  bool auth = false;
                                   if (!authService.isAuth) {
                                     // auth=true;
-                                  await Get.toNamed(Routes.LOGIN).then((value) => auth= value);
-                                  }else{
-                                    auth=true;
+                                    await Get.toNamed(Routes.LOGIN)
+                                        .then((value) => auth = value);
+                                  } else {
+                                    auth = true;
                                   }
-                                  if(auth==true){
-                                  controller.request.value = true;
-                                  List<ProdItem> prods = [];
-                                  try {
-                                    FB_Order fb_order = FB_Order();
-                                    fb_order.created_at = DateTime.now();
-                                    fb_order.delevery_time =
-                                        controller.dateinit;
-                                    fb_order.total = controller.total.toInt();
-                                    fb_order.description =
-                                        controller.booking.value.hint;
-                                    fb_order.phone = "0000";
-                                    fb_order.state = 1;
-                                    fb_order.items =
-                                        controller.oneCart3.map((element) {
-                                      prods.add(ProdItem(
-                                          name: element.food_name +
-                                                  " / " +
-                                                  element.part_name ??
-                                              "",
-                                          count: int.parse(element.much),
-                                          price: double.parse(element.price)));
-                                      return OItem(
-                                          name_item: element.food_name,
-                                          part: element.part_name,
-                                          extra: int.parse(element.total) == 1
-                                              ? true
-                                              : false,
-                                          price: int.parse(element.price),
-                                          num: int.parse(element.much));
-                                    }).toList();
-                                    fb_order.token = await Get.find<
-                                            FireBaseMessagingService>()
-                                        .getToken();
-                                    fb_order.location = Location(
-                                        address:
-                                            controller.currentAddress?.address,
-                                        lat_lng: GeoPoint(
-                                            controller.currentAddress.latitude,
-                                            controller
-                                                .currentAddress.longitude));
-                                    Get.to(() => FatoraView(prods));
-                                    await FirebaseFirestore.instance
-                                        .collection('orders')
-                                        .add(fb_order.toJson())
-                                        .catchError((e) {
+                                  if (auth == true) {
+                                    controller.request.value = true;
+                                    Shop shop = Get.find<AuthService>().shop.value;
+                                    List<ProdItem> prods = [];
+                                    try {
+                                      FB_Order fb_order = FB_Order();
+                                      fb_order.created_at = DateTime.now();
+                                      fb_order.delevery_time =
+                                          controller.dateinit;
+                                      fb_order.total = controller.total.toInt();
+                                      fb_order.tax=shop.tax;
+                                      fb_order.totalWithTax=(controller.total.value+controller.total.value*shop.tax/100).toPrecision(2);
+                                      fb_order.description =
+                                          controller.booking.value.hint;
+                                      fb_order.phone = authService.user.value.phone;
+                                      fb_order.state = 1;
+                                      fb_order.items =
+                                          controller.oneCart3.map((element) {
+                                        prods.add(ProdItem(
+                                            name: element.food_name +
+                                                    " / " +
+                                                    element.part_name ??
+                                                "",
+                                            count: int.parse(element.much),
+                                            price:
+                                                double.parse(element.price)));
+                                        return OItem(
+                                            name_item: element.food_name,
+                                            part: element.part_name,
+                                            extra: int.parse(element.total) == 1
+                                                ? true
+                                                : false,
+                                            price: int.parse(element.price),
+                                            num: int.parse(element.much));
+                                      }).toList();
+                                      fb_order.token = await Get.find<
+                                              FireBaseMessagingService>()
+                                          .getToken();
+                                      fb_order.location = Location(
+                                          address: controller
+                                              .currentAddress?.address,
+                                          lat_lng: GeoPoint(
+                                              controller
+                                                  .currentAddress.latitude,
+                                              controller
+                                                  .currentAddress.longitude));
+                                      // Get.to(() => FatoraView(prods));
+                                      await FirebaseFirestore.instance
+                                          .collection('orders')
+                                          .add(fb_order.toJson())
+                                          .catchError((e) {
+                                        log("error 564 : " + e.toString());
+                                      });
+                                      // Shop shpp=Shop(sellerName: "محمد",vaTnumber: "142345378352432",storeName: "طلي",storeAddress: "ibb-street",storeCity: "yemen",storePhone: "+967772537707")
+                                      Get.to(() => FatoraView(prods));
+                                    } catch (e) {
                                       log("error 564 : " + e.toString());
-                                    });
-                                    // Shop shpp=Shop(sellerName: "محمد",vaTnumber: "142345378352432",storeName: "طلي",storeAddress: "ibb-street",storeCity: "yemen",storePhone: "+967772537707")
-                                    Get.to(() => FatoraView(prods));
-                                  } catch (e) {
-                                    log("error 564 : " + e.toString());
-                                  } finally {
-                                    controller.request.value = false;
-                                  }
+                                    } finally {
+                                      controller.request.value = false;
+                                    }
 
-                                  Get.showSnackbar(Ui.SuccessSnackBar(
-                                      message: "تمت الاضافة للسلة ".tr));
-                                  // await Get.toNamed(Routes.BOOKING_SUMMARY);
-                                }else{
-                                  log("auth= false");}
-                          }
+                                    Get.showSnackbar(Ui.SuccessSnackBar(
+                                        message: "تمت الاضافة للسلة ".tr));
+                                    // await Get.toNamed(Routes.BOOKING_SUMMARY);
+                                  } else {
+                                    log("auth= false");
+                                  }
+                                }
                               : null,
                         ).paddingOnly(right: 20, left: 20);
                 }),
               ),
-              Expanded(
-                flex: 2,
-                child: BlockButtonWidget(
-                  text: Container(
-                      height: 24,
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "جدولة   ",
-                            textAlign: TextAlign.center,
-                            style: Get.textTheme.headline6.merge(
-                              TextStyle(color: Get.theme.cardColor),
-                            ),
-                          ),
-                          const Icon(Icons.timer_outlined),
-                        ],
-                      )),
-                  onPressed: () {
-                    controller.getScadual();
-                  },
-                  color: Get.theme.accentColor.withAlpha(150),
-                ),
-              ),
+              // Expanded(
+              //   flex: 2,
+              //   child: BlockButtonWidget(
+              //     text: Container(
+              //         height: 24,
+              //         alignment: Alignment.center,
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Text(
+              //               "جدولة   ",
+              //               textAlign: TextAlign.center,
+              //               style: Get.textTheme.headline6.merge(
+              //                 TextStyle(color: Get.theme.cardColor),
+              //               ),
+              //             ),
+              //             const Icon(Icons.timer_outlined),
+              //           ],
+              //         )),
+              //     onPressed: () {
+              //       controller.getScadual();
+              //     },
+              //     color: Get.theme.accentColor.withAlpha(150),
+              //   ),
+              // ),
             ],
           ),
         ],
@@ -1727,10 +1743,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
   }
 
   line(double i) => Container(
-    width: Get.width-40,
-    height: i,
-    color: Colors.grey.withAlpha(100),
-  );
+        width: Get.width - 40,
+        height: i,
+        color: Colors.grey.withAlpha(100),
+      );
 }
 
 getimgUrl(String url, int i) {
@@ -1795,8 +1811,7 @@ class CategoriesCarouselWidget2 extends GetWidget<BookEServiceController> {
                       alignment: AlignmentDirectional.topCenter,
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsetsDirectional.only( top: 30),
+                          padding: EdgeInsetsDirectional.only(top: 30),
                           child: Column(
                             // crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -1837,7 +1852,8 @@ class CategoriesCarouselWidget2 extends GetWidget<BookEServiceController> {
                           child: Text(
                             _category.name,
                             maxLines: 2,
-                            style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                            style: Get.textTheme.headline6.merge(
+                                TextStyle(color: Get.theme.primaryColor)),
                           ),
                         ),
                       ],
@@ -1875,7 +1891,7 @@ class CustomDropDown extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
               // color: Colors.grey[100],
-            border:Border.all(color: Colors.black26) ,
+              border: Border.all(color: Colors.black26),
               borderRadius: BorderRadius.circular(10)),
           child: DropdownButton<dynamic>(
             // elevation: 10,

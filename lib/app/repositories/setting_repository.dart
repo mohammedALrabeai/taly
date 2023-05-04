@@ -15,7 +15,7 @@ class SettingRepository {
     return _laravelApiClient.getSettings();
   }
   get2() {
-
+// Color(0xff000000);
     return Setting.fromJson({
       "app_name": "ذبيحة",
       "app_short_description": " Mobile Application",
@@ -25,11 +25,12 @@ class SettingRepository {
       "fcm_key":"AAAA4h5Dexk:APA91bEzUNHCmnEZmPUwemVpL1Ynpm41cjBJ1EkS8UJHvDl2hQHA0NQTldmLJI6a_NMQaOSEFakRjxvqG0epa8TLL9hMznVqL-vg1QTYQiQFiKgJ5wayctMuFJx_Lld0FOOkqIlwqin-",
       "enable_paypal": "1",
       // "main_color": "#F4841F",
-      "main_color": "#6E3102",
+      "main_color": "#FF000000",
       "main_dark_color": "#F4841F",
-      "second_color": "#e77f04",
+      "second_color": "#FF000000",
       "second_dark_color": "#CCCCDD",
-      "accent_color": "#6E3102",
+      // "accent_color": "#6E3102",
+      "accent_color": "#000000FF",
       "accent_dark_color": "#9999AA",
       "scaffold_dark_color": "#2C2C2C",
       "scaffold_color": "#FAFAFA",

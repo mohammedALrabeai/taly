@@ -1,22 +1,28 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_services/app/models/booking_model.dart';
-
+import 'package:geolocator/geolocator.dart';
 import '../../common/ui.dart';
 import '../models/address_model.dart';
+import '../models/city_model.dart';
 import '../models/setting_model.dart';
 import '../modules/e_service/views/e_service_view2.dart';
 import '../repositories/setting_repository.dart';
 import 'auth_service.dart';
+import 'geolocator.dart';
 import 'translation_service.dart';
 
 class SettingsService extends GetxService {
   final setting = Setting().obs;
   final address = Address().obs;
   final booking = Booking().obs;
+  Position myLocation;
   GetStorage _box;
 
   SettingRepository _settingsRepo;
@@ -31,15 +37,63 @@ class SettingsService extends GetxService {
       _box.write('current_address', _address.toJson());
     });
     setting.value = await _settingsRepo.get2();
+    loopLoca();
+    loopCity();
     await getAddress();
     return this;
+  }
+
+  loopLoca() {
+    getCurrent();
+    Future.delayed(Duration(seconds: 40), () async {
+      getCurrent();
+    });
+  }
+
+  loopCity() {
+    getCities();
+    Future.delayed(Duration(minutes: 5), () async {
+      getCities();
+      log("..");
+    });
+  }
+
+  getCurrent() async {
+    MyLocation2 loc = MyLocation2();
+    try {
+      myLocation = await loc.getCurrent();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+  var cities=<City>[].obs;
+  void getCities() {
+    // cities.clear();
+
+    FirebaseFirestore.instance
+        .collection('cities')
+    // .where('created_by', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      cities.value = value.docs.map((e) {
+        log(e.data().toString());
+        var r=  City.fromJson(e.data());
+        r.id=e.id;
+        return r;
+      }).toList();
+      cities.refresh();
+      return;
+    }).catchError((e) {
+      log(e.toString());
+    });
   }
 
   ThemeData getLightTheme() {
     // TODO change font dynamically
     return ThemeData(
         primaryColor: Colors.white,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            elevation: 0, foregroundColor: Colors.white),
         brightness: Brightness.light,
         // accentColor: Ui.parseColor(setting.value.mainColor),
         accentColor: mcolor,
@@ -48,7 +102,8 @@ class SettingsService extends GetxService {
         focusColor: Ui.parseColor(setting.value.accentColor),
         hintColor: Ui.parseColor(setting.value.secondColor),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: Ui.parseColor(setting.value.mainColor)),
+          style: TextButton.styleFrom(
+              primary: Ui.parseColor(setting.value.mainColor)),
         ),
         colorScheme: ColorScheme.light(
           primary: Ui.parseColor(setting.value.mainColor),
@@ -57,17 +112,61 @@ class SettingsService extends GetxService {
         textTheme: GoogleFonts.getTextTheme(
           getLocale().toString().startsWith('ar') ? 'Cairo' : 'Poppins',
           TextTheme(
-            headline6: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor), height: 1.3),
-            headline5: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline4: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline2: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor), height: 1.4),
-            headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondColor), height: 1.4),
-            subtitle2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            subtitle1: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainColor), height: 1.2),
-            bodyText2: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            bodyText1: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            caption: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentColor), height: 1.2),
+            headline6: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.3),
+            headline5: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline4: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline3: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline2: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.4),
+            headline1: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.4),
+            subtitle2: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            subtitle1: TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.2),
+            bodyText2: TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            bodyText1: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            caption: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.accentColor),
+                height: 1.2),
           ),
         ));
   }
@@ -80,12 +179,14 @@ class SettingsService extends GetxService {
         scaffoldBackgroundColor: Color(0xFF2C2C2C),
         brightness: Brightness.dark,
         accentColor: Ui.parseColor(setting.value.mainDarkColor),
-        dividerColor: Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
+        dividerColor:
+            Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
         focusColor: Ui.parseColor(setting.value.accentDarkColor),
         hintColor: Ui.parseColor(setting.value.secondDarkColor),
         toggleableActiveColor: Ui.parseColor(setting.value.mainDarkColor),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: Ui.parseColor(setting.value.mainColor)),
+          style: TextButton.styleFrom(
+              primary: Ui.parseColor(setting.value.mainColor)),
         ),
         colorScheme: ColorScheme.dark(
           primary: Ui.parseColor(setting.value.mainDarkColor),
@@ -94,17 +195,61 @@ class SettingsService extends GetxService {
         textTheme: GoogleFonts.getTextTheme(
             getLocale().toString().startsWith('ar') ? 'Cairo' : 'Poppins',
             TextTheme(
-              headline6: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.3),
-              headline5: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline4: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline2: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.4),
-              headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.4),
-              subtitle2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              subtitle1: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.2),
-              bodyText2: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              bodyText1: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              caption: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentDarkColor), height: 1.2),
+              headline6: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.3),
+              headline5: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline4: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline3: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline2: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.4),
+              headline1: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w300,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.4),
+              subtitle2: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w600,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              subtitle1: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.2),
+              bodyText2: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              bodyText1: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              caption: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w300,
+                  color: Ui.parseColor(setting.value.accentDarkColor),
+                  height: 1.2),
             )));
   }
 
@@ -112,14 +257,16 @@ class SettingsService extends GetxService {
     // TODO change font dynamically
     return ThemeData(
         primaryColor: Colors.white,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            elevation: 0, foregroundColor: Colors.white),
         brightness: Brightness.light,
         accentColor: Ui.parseColor(setting.value.mainColor),
         dividerColor: Ui.parseColor(setting.value.accentColor, opacity: 0.1),
         focusColor: Ui.parseColor(setting.value.accentColor),
         hintColor: Ui.parseColor(setting.value.secondColor),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: Ui.parseColor(setting.value.mainColor)),
+          style: TextButton.styleFrom(
+              primary: Ui.parseColor(setting.value.mainColor)),
         ),
         colorScheme: ColorScheme.light(
           primary: Ui.parseColor(setting.value.mainColor),
@@ -128,17 +275,61 @@ class SettingsService extends GetxService {
         textTheme: GoogleFonts.getTextTheme(
           getLocale().toString().startsWith('ar') ? 'Cairo' : 'Poppins',
           TextTheme(
-            headline6: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor), height: 1.3),
-            headline5: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline4: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline3: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor), height: 1.3),
-            headline2: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor), height: 1.4),
-            headline1: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondColor), height: 1.4),
-            subtitle2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            subtitle1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainColor), height: 1.2),
-            bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            bodyText1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor), height: 1.2),
-            caption: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentColor), height: 1.2),
+            headline6: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.3),
+            headline5: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline4: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline3: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.3),
+            headline2: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.4),
+            headline1: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.4),
+            subtitle2: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            subtitle1: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.mainColor),
+                height: 1.2),
+            bodyText2: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            bodyText1: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor),
+                height: 1.2),
+            caption: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.accentColor),
+                height: 1.2),
           ),
         ));
   }
@@ -151,12 +342,14 @@ class SettingsService extends GetxService {
         scaffoldBackgroundColor: Color(0xFF2C2C2C),
         brightness: Brightness.dark,
         accentColor: Ui.parseColor(setting.value.mainDarkColor),
-        dividerColor: Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
+        dividerColor:
+            Ui.parseColor(setting.value.accentDarkColor, opacity: 0.1),
         focusColor: Ui.parseColor(setting.value.accentDarkColor),
         hintColor: Ui.parseColor(setting.value.secondDarkColor),
         toggleableActiveColor: Ui.parseColor(setting.value.mainDarkColor),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(primary: Ui.parseColor(setting.value.mainColor)),
+          style: TextButton.styleFrom(
+              primary: Ui.parseColor(setting.value.mainColor)),
         ),
         colorScheme: ColorScheme.dark(
           primary: Ui.parseColor(setting.value.mainDarkColor),
@@ -165,17 +358,61 @@ class SettingsService extends GetxService {
         textTheme: GoogleFonts.getTextTheme(
             getLocale().toString().startsWith('ar') ? 'Cairo' : 'Poppins',
             TextTheme(
-              headline6: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.3),
-              headline5: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline4: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline3: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.3),
-              headline2: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.4),
-              headline1: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.4),
-              subtitle2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              subtitle1: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainDarkColor), height: 1.2),
-              bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              bodyText1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor), height: 1.2),
-              caption: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentDarkColor), height: 1.2),
+              headline6: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.3),
+              headline5: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline4: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline3: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.3),
+              headline2: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w700,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.4),
+              headline1: TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.w300,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.4),
+              subtitle2: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              subtitle1: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.mainDarkColor),
+                  height: 1.2),
+              bodyText2: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              bodyText1: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                  color: Ui.parseColor(setting.value.secondDarkColor),
+                  height: 1.2),
+              caption: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w300,
+                  color: Ui.parseColor(setting.value.accentDarkColor),
+                  height: 1.2),
             )));
   }
 
@@ -192,12 +429,14 @@ class SettingsService extends GetxService {
     switch (_themeMode) {
       case 'ThemeMode.light':
         SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.white),
+          SystemUiOverlayStyle.light
+              .copyWith(systemNavigationBarColor: Colors.white),
         );
         return ThemeMode.light;
       case 'ThemeMode.dark':
         SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle.dark.copyWith(systemNavigationBarColor: Colors.black87),
+          SystemUiOverlayStyle.dark
+              .copyWith(systemNavigationBarColor: Colors.black87),
         );
         return ThemeMode.dark;
       case 'ThemeMode.system':
@@ -205,12 +444,14 @@ class SettingsService extends GetxService {
       default:
         if (setting.value.defaultTheme == "dark") {
           SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle.dark.copyWith(systemNavigationBarColor: Colors.black87),
+            SystemUiOverlayStyle.dark
+                .copyWith(systemNavigationBarColor: Colors.black87),
           );
           return ThemeMode.dark;
         } else {
           SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.white),
+            SystemUiOverlayStyle.light
+                .copyWith(systemNavigationBarColor: Colors.white),
           );
           return ThemeMode.light;
         }
@@ -224,7 +465,8 @@ class SettingsService extends GetxService {
       } else if (Get.find<AuthService>().isAuth) {
         List<Address> _addresses = await _settingsRepo.getAddresses();
         if (_addresses.isNotEmpty) {
-          address.value = _addresses.firstWhere((_address) => _address.isDefault, orElse: () {
+          address.value = _addresses
+              .firstWhere((_address) => _address.isDefault, orElse: () {
             return _addresses.first;
           });
         } else {

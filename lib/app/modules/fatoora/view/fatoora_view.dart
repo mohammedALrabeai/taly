@@ -201,26 +201,13 @@ class _FatoraViewState extends State<FatoraView> {
               decoration: Ui.getBoxDecoration(),
               child: Column(
                 children: [
-                  AccountLinkWidget(
-                    icon: Icon(Icons.save, color: Get.theme.accentColor),
-                    text: Text("Save the bill".tr),
-                    onTap: (e) async {
-                      // Qr r=Qr(shpp);
-                      Uint8List png;
-                      try {
-                        RenderRepaintBoundary boundry =
-                            gkey.currentContext.findRenderObject();
-                        var img = await boundry.toImage();
-                        ByteData bytdata =
-                            await img.toByteData(format: ImageByteFormat.png);
-                        png = bytdata.buffer.asUint8List();
-                        boundry.reassemble();
-                      } catch (e) {
-                        log("error 6565 $e");
-                      }
-                      // Get.to(() => CreatePdfStatefulWidget());
-                    },
-                  ),
+                  // AccountLinkWidget(
+                  //   icon: Icon(Icons.checklist_rtl_outlined, color: Get.theme.accentColor),
+                  //   text: Text("My Orders".tr),
+                  //   onTap: (e) async {
+                  //     // Get.to(() => CreatePdfStatefulWidget());
+                  //   },
+                  // ),
                   AccountLinkWidget(
                     icon: Icon(Icons.local_print_shop,
                         color: Get.theme.accentColor),

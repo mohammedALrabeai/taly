@@ -32,9 +32,10 @@ class EServiceController extends GetxController {
     // heroTag.value = arguments['heroTag'] as String;
     Future.delayed(Duration(seconds: 3),(){
       if(!Get.find<AuthService>().isAuth) {
-      Get.toNamed(Routes.SETTINGS_ADDRESS_PICKER);
+      Get.offAndToNamed(Routes.SETTINGS_ADDRESS_PICKER);
     }else{
-      Get.toNamed(Routes.BOOK_E_SERVICE);
+      // Get.toNamed(Routes.BOOK_E_SERVICE);
+      Get.offAndToNamed(Routes.PRODUCTS);
     }});
     super.onInit();
   }

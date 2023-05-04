@@ -73,6 +73,12 @@ class Ui {
 
   static Color parseColor(String hexCode, {double opacity}) {
     try {
+      if(hexCode.length>7) {
+
+        // log(hexCode)
+        return Color(int.parse(hexCode.replaceAll("#", "0x"))).withOpacity(
+            opacity ?? 1);
+      }
       return Color(int.parse(hexCode.replaceAll("#", "0xFF"))).withOpacity(opacity ?? 1);
     } catch (e) {
       return Color(0xFFCCCCCC).withOpacity(opacity ?? 1);

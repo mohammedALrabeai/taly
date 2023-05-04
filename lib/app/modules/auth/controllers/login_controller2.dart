@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 
 import '../../../../common/ui.dart';
+import '../../../models/user_khrof_model.dart';
 import '../../../repositories/user_repository.dart';
 
 import '../../../routes/app_routes.dart';
@@ -102,8 +103,10 @@ class LoginController2 extends GetxController {
 
   mainLogin() {
     if (steps.value == 1) {
-      chekType((bool outh) {
+      chekType((bool outh) async {
         if (outh) {
+          UserRepository _userRepository=UserRepository();
+          User_Khrof user = await _userRepository.searchUser(currentUser.value.phone);
           loading.value = false;
           steps.value = 3;
           // await Get.find<RootController>().changePage(0);
@@ -176,6 +179,7 @@ class LoginController2 extends GetxController {
     try {
       loading.value = true;
       await _userRepository.verifyPhone(smsSent.value);
+      User_Khrof user = await _userRepository.searchUser(currentUser.value.phone);
       // await Get.find<FireBaseMessagingService>().setDeviceToken2();
       // currentUser.value = await _userRepository.register2(currentUser.value);
       // await _userRepository.signUpWithEmailAndPassword(currentUser.value.email, currentUser.value.apiToken);

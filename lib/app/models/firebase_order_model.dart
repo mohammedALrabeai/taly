@@ -14,6 +14,8 @@ class FB_Order {
   List<OItem> items=[];
   int state;
   int total;
+  num tax;
+  num totalWithTax;
 
 
   FB_Order(
@@ -25,16 +27,20 @@ class FB_Order {
       this.location,
       this.items,
       this.total,
+      this.tax,
+      this.totalWithTax,
       this.state});
 
   factory FB_Order.fromJson(Map<String, dynamic> json) => FB_Order(
     created_at: json["created_at"] == null ? null : json["created_at"].toDate(),
     delevery_time: json["delevery_time"] == null ? null : json["delevery_time"].toDate(),
     description: json["description"] == null ? null : json["description"],
-    phone: json["phone"] == null ? true : json["phone"],
-    token: json["token"] == null ? true : json["token"],
-    state: json["state"] == null ? true : json["state"],
-    total: json["total"] == null ? true : json["total"],
+    phone: json["phone"] == null ? null : json["phone"],
+    token: json["token"] == null ? null : json["token"],
+    state: json["state"] == null ? null : json["state"],
+    total: json["total"] == null ? null : json["total"],
+    tax: json["tax"] == null ? null : json["tax"],
+    totalWithTax: json["totalWithTax"] == null ? null : json["totalWithTax"],
     location: json["location"] == null ? true : Location.fromJson(json['location']),
     items: json["items"] == null
         ? []
@@ -48,6 +54,8 @@ class FB_Order {
     "phone": phone == null ? null : phone,
     "state": state == null ? null : state,
     "total": total == null ? null : total,
+    "tax": tax == null ? null : tax,
+    "totalWithTax": totalWithTax == null ? null : totalWithTax,
     "location": location == null ? null : location.toJson(),
     "items": items == null
         ? null

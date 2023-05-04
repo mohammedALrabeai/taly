@@ -52,7 +52,6 @@ class BookEServiceController extends GetxController {
   var selectPart = Parts().obs;
   var selectProduct = Product().obs;
 
-
   var currentSizeId = SizeObtion().obs;
 
   var currentCutId = CutObtion().obs;
@@ -198,9 +197,8 @@ class BookEServiceController extends GetxController {
   refreshHome() async {
     await getDiary();
     await getAddress();
-    await getThisOrder("1",false);
+    await getThisOrder("1", false);
   }
-
 
   getDiary() {
     products.clear();
@@ -217,9 +215,9 @@ class BookEServiceController extends GetxController {
         r.id = e.id;
         return r;
       }).toList();
-      selectProduct.value=products.first;
-      selectPart.value=selectProduct.value.parts?.first??Parts();
-      selectCut.value=selectProduct.value.cuts?.first??null;
+      selectProduct.value = products.first;
+      selectPart.value = selectProduct.value.parts?.first ?? Parts();
+      selectCut.value = selectProduct.value.cuts?.first ?? null;
       products.refresh();
 
       isLoading.value = false;
@@ -364,21 +362,20 @@ class BookEServiceController extends GetxController {
     refresh();
     // quantity.value < 1000 ? quantity.value++ : null;
   }
+
   saveOrder2(MyOrder category) async {
+    MyOrder res = await db.searchItem(category);
+    if (res.id != null) {
+      res.much =
+          (int.tryParse(res.much) + int.tryParse(category.much)).toString();
+      await db.updateMyOrder(res);
+    } else {
+      await db.saveMyOrder(category);
+    }
+    await getThisOrder("1", false);
+  }
 
-    MyOrder res=   await db.searchItem(category);
-   if(res.id!=null){
-res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
-     await db.updateMyOrder(res);
-   }else{
-     await db.saveMyOrder(category);
-
-   }
-
-      await getThisOrder("1",false);
- }
   void getThisOrder(String id, bool lastorder, {List<MyOrder> list}) async {
-
     total.value = 0;
     if (lastorder) {
       oneCart3.value = list;
@@ -420,6 +417,7 @@ res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
     quantity.value < 1000 ? quantity.value++ : null;
     this.booking.value.quantity = quantity.value;
   }
+
   void decrementQuantity2() {
     quantity.value > 1 ? quantity.value-- : null;
     this.booking.value.quantity = quantity.value;
@@ -440,7 +438,6 @@ res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
           // currentSizeId.update((val) {
           //   currentSizeId.value=val;
           // });
-
         }
         if (o.cutObtions != null) {
           cutoptionlist.value = o.cutObtions;
@@ -514,17 +511,20 @@ res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
   }
 
   getSubtotal(MyOrder service) {
-    return int.parse(service.much) * double.parse(service.price,(e)=>0);
+    return int.parse(service.much) * double.parse(service.price, (e) => 0);
   }
 
   void setPrts(Product category) {
-    selectProduct.value=category;;
-    if(category.parts!=null &&category.parts.isNotEmpty) {
+    selectProduct.value = category;
+    if (category.parts != null && category.parts.isNotEmpty) {
       selectPart.value = selectProduct.value.parts?.first ?? Parts();
-      selectCut.value =selectProduct.value.cuts==null ||selectProduct.value.cuts.isEmpty? "0": selectProduct.value.cuts?.first ?? "";
-    }else{
-      selectPart.value=Parts();
-      selectCut.value=null;
+      selectCut.value =
+          selectProduct.value.cuts == null || selectProduct.value.cuts.isEmpty
+              ? "0"
+              : selectProduct.value.cuts?.first ?? "";
+    } else {
+      selectPart.value = Parts();
+      selectCut.value = null;
     }
   }
 
@@ -535,7 +535,7 @@ res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
     dateinit = DateTime.now().add(const Duration(days: 0));
     // await showGeneralDialog(context: Get.context, pageBuilder: pageBuilder)
     await Get.defaultDialog(title: "جدولة", content: pageBuilder())
-    // await showMyDatePicker2(Get.context)
+        // await showMyDatePicker2(Get.context)
         .then((value) async {
       if (value != null && value) {
         await showMyTimePicker2(Get.context).then((value2) {
@@ -598,124 +598,124 @@ res.much=(int.tryParse(res.much)+int.tryParse(category.much)).toString();
       height: 400,
       width: 200,
       child: Obx(() => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: ListWheelScrollView(
-                onSelectedItemChanged: (i) {
-                  selectdDay.value = i;
-                  dateinit = DateTime.now().add(Duration(days: i));
-                },
-                // renderChildrenOutsideViewport: true,
-                physics: const FixedExtentScrollPhysics(),
-                diameterRatio: 1.5,
-                // useMagnifier: true,
-                magnification: 1.2,
-                // squeeze: 0.9,
-                itemExtent: 145.5,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: ListWheelScrollView(
+                    onSelectedItemChanged: (i) {
+                      selectdDay.value = i;
+                      dateinit = DateTime.now().add(Duration(days: i));
+                    },
+                    // renderChildrenOutsideViewport: true,
+                    physics: const FixedExtentScrollPhysics(),
+                    diameterRatio: 1.5,
+                    // useMagnifier: true,
+                    magnification: 1.2,
+                    // squeeze: 0.9,
+                    itemExtent: 145.5,
+                    children: [
+                      BlockButtonWidget(
+                          text: Container(
+                            height: 24,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "اليــوم",
+                              textAlign: TextAlign.center,
+                              style: Get.textTheme.headline6.merge(
+                                TextStyle(color: Get.theme.cardColor),
+                              ),
+                            ),
+                          ),
+                          color: (selectdDay.value == 0)
+                              ? Get.theme.accentColor
+                              : Get.theme.accentColor.withOpacity(0.5),
+                          onPressed:
+                              () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
+                          ),
+                      BlockButtonWidget(
+                          text: Container(
+                            height: 24,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "غـــدا",
+                              textAlign: TextAlign.center,
+                              style: Get.textTheme.headline6.merge(
+                                TextStyle(color: Get.theme.cardColor),
+                              ),
+                            ),
+                          ),
+                          // color: Get.theme.accentColor,
+                          color: (selectdDay.value == 1)
+                              ? Get.theme.accentColor
+                              : Get.theme.accentColor.withOpacity(0.5),
+                          onPressed:
+                              () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
+                          ),
+                      BlockButtonWidget(
+                          text: Container(
+                            height: 24,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "بعـد غـد",
+                              textAlign: TextAlign.center,
+                              style: Get.textTheme.headline6.merge(
+                                TextStyle(color: Get.theme.cardColor),
+                              ),
+                            ),
+                          ),
+                          // color: Get.theme.accentColor,
+                          color: (selectdDay.value == 2)
+                              ? Get.theme.accentColor
+                              : Get.theme.accentColor.withOpacity(0.5),
+                          onPressed:
+                              () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
+                          ),
+                    ]),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BlockButtonWidget(
                       text: Container(
                         height: 24,
                         alignment: Alignment.center,
                         child: Text(
-                          "اليــوم",
+                          "موافق",
                           textAlign: TextAlign.center,
                           style: Get.textTheme.headline6.merge(
                             TextStyle(color: Get.theme.cardColor),
                           ),
                         ),
                       ),
-                      color: (selectdDay.value == 0)
-                          ? Get.theme.accentColor
-                          : Get.theme.accentColor.withOpacity(0.5),
-                      onPressed:
-                          () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
-                  ),
+                      color: Get.theme.accentColor,
+                      onPressed: () {
+                        Get.back(result: true);
+                      } // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
+                      ),
                   BlockButtonWidget(
                       text: Container(
                         height: 24,
                         alignment: Alignment.center,
                         child: Text(
-                          "غـــدا",
+                          "الغاء",
                           textAlign: TextAlign.center,
                           style: Get.textTheme.headline6.merge(
                             TextStyle(color: Get.theme.cardColor),
                           ),
                         ),
                       ),
-                      // color: Get.theme.accentColor,
-                      color: (selectdDay.value == 1)
-                          ? Get.theme.accentColor
-                          : Get.theme.accentColor.withOpacity(0.5),
-                      onPressed:
-                          () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
-                  ),
-                  BlockButtonWidget(
-                      text: Container(
-                        height: 24,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "بعـد غـد",
-                          textAlign: TextAlign.center,
-                          style: Get.textTheme.headline6.merge(
-                            TextStyle(color: Get.theme.cardColor),
-                          ),
-                        ),
+                      color: Get.theme.accentColor,
+                      onPressed: () {
+                        Get.back(result: false);
+                      } // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
                       ),
-                      // color: Get.theme.accentColor,
-                      color: (selectdDay.value == 2)
-                          ? Get.theme.accentColor
-                          : Get.theme.accentColor.withOpacity(0.5),
-                      onPressed:
-                          () async {} // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
-                  ),
-                ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              BlockButtonWidget(
-                  text: Container(
-                    height: 24,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "موافق",
-                      textAlign: TextAlign.center,
-                      style: Get.textTheme.headline6.merge(
-                        TextStyle(color: Get.theme.cardColor),
-                      ),
-                    ),
-                  ),
-                  color: Get.theme.accentColor,
-                  onPressed: () {
-                    Get.back(result: true);
-                  } // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
-              ),
-              BlockButtonWidget(
-                  text: Container(
-                    height: 24,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "الغاء",
-                      textAlign: TextAlign.center,
-                      style: Get.textTheme.headline6.merge(
-                        TextStyle(color: Get.theme.cardColor),
-                      ),
-                    ),
-                  ),
-                  color: Get.theme.accentColor,
-                  onPressed: () {
-                    Get.back(result: false);
-                  } // Get.toNamed(Routes.BOOK_E_SERVICE, arguments: {'eService': _eService, 'options': controller.getCheckedOptions(), 'quantity': controller.quantity.value});
-              ),
+                ],
+              )
             ],
-          )
-        ],
-      )),
+          )),
     );
   }
 }

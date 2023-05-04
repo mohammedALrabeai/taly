@@ -19,7 +19,9 @@ void initServices() async {
   await GetStorage.init();
   await Get.putAsync(() => TranslationService().init());
   await Get.putAsync(() => GlobalService().init());
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+  );
   await Get.putAsync(() => AuthService().init());
   await Get.putAsync(() => FireBaseMessagingService().init());
   await Get.putAsync(() => LaravelApiClient().init());
