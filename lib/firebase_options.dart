@@ -17,16 +17,16 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -49,21 +49,22 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA_z7wZq86fhBtE-zUkUtsUNQ_4Clsh4Jg',
-    appId: '1:1023264748938:web:bd54b8c47fd88c855e4473',
-    messagingSenderId: '1023264748938',
-    projectId: 'dhabiha-eaecf',
-    authDomain: 'dhabiha-eaecf.firebaseapp.com',
-    storageBucket: 'dhabiha-eaecf.appspot.com',
-    measurementId: 'G-0Q2TR1KLH0',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAN0IC7Zww2bmBNDdx8Iuapgjb0gPvBf3Y',
-    appId: '1:1023264748938:android:3368debb11160b7d5e4473',
+    appId: '1:1023264748938:android:d6fba474bb8f47645e4473',
     messagingSenderId: '1023264748938',
     projectId: 'dhabiha-eaecf',
     storageBucket: 'dhabiha-eaecf.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDQGFowp4PsY2hqEmOeIT-xmMVXPBdY89U',
+    appId: '1:1023264748938:ios:8df0671640d4d3925e4473',
+    messagingSenderId: '1023264748938',
+    projectId: 'dhabiha-eaecf',
+    storageBucket: 'dhabiha-eaecf.appspot.com',
+    androidClientId: '1023264748938-3gdu3pc00fvg5ieqvtbeup5vk2df1rqj.apps.googleusercontent.com',
+    iosClientId: '1023264748938-9vcfh6hjcm65gm3fe1b4vhi4lu5krov9.apps.googleusercontent.com',
+    iosBundleId: 'com.skylight.dhabihaapp',
   );
 }

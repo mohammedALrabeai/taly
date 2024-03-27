@@ -83,6 +83,7 @@ Position get myLocation => Get.find<SettingsService>().myLocation;
     log("fitching");
     FirebaseFirestore.instance
         .collection('product')
+    .where("enabled",isEqualTo: true)
     // .where('created_by', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {

@@ -631,48 +631,54 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                     // Get.to(CheckOutView(_service.idRest));
                                     // Get.toNamed(Routes.RESTURENT_DETAIL, arguments: {'eService': _service, 'heroTag': 'resturent'});
                                   },
-                                  child: Container(
-                                    // padding: EdgeInsets.all(15),
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    height: 120,
-                                    width: double.infinity,
-                                    child: Card(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        // padding: EdgeInsets.all(15),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        height: 120,
+                                        width: double.infinity,
+                                        child: Card(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              InkWell(
-                                                onTap: () => controller
-                                                    .incrementQuantity(
-                                                        "1", index),
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          Get.theme.accentColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4)),
-                                                  child: const Text(
-                                                    '+',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 25),
-                                                    textAlign: TextAlign.center,
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () => controller
+                                                        .incrementQuantity(
+                                                            "1", index),
+                                                    child: Container(
+                                                      height: 40,
+                                                      width: 30,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: Get.theme
+                                                              .accentColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(4)),
+                                                      child: const Text(
+                                                        '+',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 25),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () =>
-                                                    (_service.much == "1")
+                                                  InkWell(
+                                                    onTap: () => (_service
+                                                                .much ==
+                                                            "1")
                                                         ? _showDeleteDialog2(
                                                             context,
                                                             index,
@@ -680,168 +686,204 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                                         : controller
                                                             .decrementQuantity(
                                                                 "1", index),
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 30,
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                      color: (_service.much ==
+                                                    child: Container(
+                                                      height: 40,
+                                                      width: 30,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                          color: (_service
+                                                                      .much ==
+                                                                  "1")
+                                                              ? Colors.redAccent
+                                                                  .withAlpha(
+                                                                      190)
+                                                              : Colors.green,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(4)),
+                                                      child: (_service.much ==
                                                               "1")
-                                                          ? Colors.redAccent
-                                                              .withAlpha(190)
-                                                          : Colors.green,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4)),
-                                                  child: (_service.much == "1")
-                                                      ? const Icon(Icons.delete)
-                                                      : const Text('-',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 25),
-                                                          textAlign:
-                                                              TextAlign.center),
+                                                          ? const Icon(
+                                                              Icons.delete)
+                                                          : const Text('-',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 25),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          "${_service.food_name}",
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        Text(" الكمية : "),
+                                                        Text(
+                                                            " ${_service.much} "),
+                                                      ],
+                                                    ),
+                                                    Expanded(
+                                                      child: Row(
+                                                          // mainAxisAlignment:
+                                                          //     MainAxisAlignment.spaceBetween,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          children: [
+                                                            if (_service.color_id !=
+                                                                    null &&
+                                                                _service.color_id !=
+                                                                    "null" &&
+                                                                _service.color_id !=
+                                                                    "0")
+                                                              Text(
+                                                                  "${_service.color_name}"),
+                                                            if (_service.part_id !=
+                                                                    null &&
+                                                                _service.part_id !=
+                                                                    "null" &&
+                                                                _service.part_id !=
+                                                                    "0")
+                                                              Expanded(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                        "${"Size".tr}: "),
+                                                                    Text(
+                                                                        "${_service.part_name}"),
+                                                                    // SizedBox(
+                                                                    //   width: 15,
+                                                                    // ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                          ]),
+                                                    ),
+                                                    if (_service.size_id !=
+                                                            null &&
+                                                        _service.size_id !=
+                                                            "null" &&
+                                                        _service.size_id != "0")
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              " ${"shredder".tr}: "),
+                                                          Text(
+                                                              "${_service.size_name}"),
+                                                        ],
+                                                      ),
+                                                    // Text(
+                                                    //     "${id == "0" ? _service.description : _service.des}"),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      children: [
+                                                        // Text("${_service.much}"),
+                                                        // SizedBox(
+                                                        //   width: 10,
+                                                        // ),
+                                                        Ui.getPrice(
+                                                            double.parse(
+                                                                _service.price,
+                                                                (e) => 0)),
+                                                        const Text("1/"),
+                                                      ],
+                                                    ),
+                                                    Ui.getPrice(double.parse(
+                                                        "${controller.getSubtotal(_service)}")),
+                                                    // Text(
+                                                    //     "${controller.getSubtotal(_service)}"),
+                                                  ],
+                                                ).paddingSymmetric(
+                                                    horizontal: 15,
+                                                    vertical: 10),
+                                              ),
+                                              Container(
+                                                width: 94,
+                                                height: 100,
+                                                decoration: const BoxDecoration(
+                                                    // color: Colors.blue,
+// border:,
+// borderRadius: BorderRadius.circular(200),
+                                                    shape: BoxShape.circle),
+                                                child: Hero(
+                                                  tag: 'resturent' +
+                                                      _service.id.toString(),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    child: CachedNetworkImage(
+                                                      // height: 180,
+                                                      width: double.infinity,
+
+                                                      fit: BoxFit.cover,
+                                                      imageUrl: getimgUrl(
+                                                          _service.url, 1),
+                                                      placeholder:
+                                                          (context, url) =>
+                                                              Image.asset(
+                                                        'assets/img/loading.gif',
+                                                        fit: BoxFit.cover,
+                                                        width: 100,
+                                                        height: 100,
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              "assets/icon/default.png"),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      "${_service.food_name}",
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    ),
-                                                    Text(" الكمية : "),
-                                                    Text(" ${_service.much} "),
-                                                  ],
-                                                ),
-                                                Expanded(
-                                                  child: Row(
-                                                      // mainAxisAlignment:
-                                                      //     MainAxisAlignment.spaceBetween,
-                                                      textDirection:
-                                                          TextDirection.rtl,
-                                                      children: [
-                                                        if (_service.color_id !=
-                                                                null &&
-                                                            _service.color_id !=
-                                                                "null" &&
-                                                            _service.color_id !=
-                                                                "0")
-                                                          Text(
-                                                              "${_service.color_name}"),
-                                                        if (_service.part_id !=
-                                                                null &&
-                                                            _service.part_id !=
-                                                                "null" &&
-                                                            _service.part_id !=
-                                                                "0")
-                                                          Expanded(
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                    "${"Size".tr}: "),
-                                                                Text(
-                                                                    "${_service.part_name}"),
-                                                                // SizedBox(
-                                                                //   width: 15,
-                                                                // ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                      ]),
-                                                ),
-                                                if (_service.size_id != null &&
-                                                    _service.size_id !=
-                                                        "null" &&
-                                                    _service.size_id != "0")
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                          " ${"shredder".tr}: "),
-                                                      Text(
-                                                          "${_service.size_name}"),
-                                                    ],
-                                                  ),
-                                                // Text(
-                                                //     "${id == "0" ? _service.description : _service.des}"),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  children: [
-                                                    // Text("${_service.much}"),
-                                                    // SizedBox(
-                                                    //   width: 10,
-                                                    // ),
-                                                    Ui.getPrice(double.parse(
-                                                        _service.price,
-                                                        (e) => 0)),
-                                                    const Text("1/"),
-                                                  ],
-                                                ),
-                                                Ui.getPrice(double.parse(
-                                                    "${controller.getSubtotal(_service)}")),
-                                                // Text(
-                                                //     "${controller.getSubtotal(_service)}"),
-                                              ],
-                                            ).paddingSymmetric(
-                                                horizontal: 15, vertical: 10),
-                                          ),
-                                          Container(
-                                            width: 94,
-                                            height: 100,
-                                            decoration: const BoxDecoration(
-                                                // color: Colors.blue,
-// border:,
-// borderRadius: BorderRadius.circular(200),
-                                                shape: BoxShape.circle),
-                                            child: Hero(
-                                              tag: 'resturent' +
-                                                  _service.id.toString(),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                child: CachedNetworkImage(
-                                                  // height: 180,
-                                                  width: double.infinity,
-
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: getimgUrl(
-                                                      _service.url, 1),
-                                                  placeholder: (context, url) =>
-                                                      Image.asset(
-                                                    'assets/img/loading.gif',
-                                                    fit: BoxFit.cover,
-                                                    width: 100,
-                                                    height: 100,
-                                                  ),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      Image.asset(
-                                                          "assets/icon/default.png"),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                      if (_service.withcook)
+                                        Container(
+                                          height: 70,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.red.withAlpha(80),
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      bottom:
+                                                          Radius.circular(20))),
+                                          child: ListTile(
+                                            leading: Icon(Icons.add),
+                                            title: Text(controller
+                                                .selectedKitchen.value.name),
+                                            subtitle: Ui.getPrice(_service
+                                                    .cook_price *
+                                                int.tryParse(_service.much)),
+                                            trailing: Text('مطبخ'),
+                                          ),
+                                        )
+                                    ],
                                   ),
                                 );
                               });
@@ -1023,8 +1065,28 @@ class BookEServiceView extends GetView<BookEServiceController> {
                   // DropdownButton<int>(
                   //   // value: 1,
                   //     items: getitems()),
+                  if (controller.step.value != 1 && false)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        BlockButtonWidget(
+                          color: Colors.grey,
+                          text: Text("With Cook".tr),
+                          onPressed: () {
+                            controller.openKitchenDialog();
+                          },
+                        ),
+                      ],
+                    ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   if (controller.step.value != 1)
-                    Text("للخدمات الاخرى يرجى الكتابة في الملاحظات",textAlign: TextAlign.center,),
+                    Text(
+                      "للخدمات الاخرى يرجى الكتابة في الملاحظات",
+                      textAlign: TextAlign.center,
+                    ),
+
                   if (controller.step.value != 1)
                     TextFieldWidget(
                       onChanged: (input) =>
@@ -1380,6 +1442,15 @@ class BookEServiceView extends GetView<BookEServiceController> {
           // ),
           Row(
             children: [
+              // MaterialButton(onPressed: () async {
+              //  var t= await Get.find<
+              //       FireBaseMessagingService>()
+              //       .getToken();
+              //  await Get.find<
+              //       FireBaseMessagingService>()
+              //       .sendPushMessage("");
+              //  log(t.toString());
+              // },child: TokenMonitor((v)=>Text("send")),),
               Expanded(
                 flex: 3,
                 child: Obx(() {
@@ -1413,8 +1484,15 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                       ?.isUnknown() ??
                                   true))
                               ? () async {
+                            if(controller.oneCart3.isEmpty){
+                              Get.showSnackbar(Ui.ErrorSnackBar(
+                                  title: "No Item".tr,
+                                  message: "There are no items in the cart"
+                                      .tr));
+                              return ;
+                            }
                                   final authService = Get.find<AuthService>();
-                                  bool auth = false;
+                                  bool auth = true;
                                   if (!authService.isAuth) {
                                     // auth=true;
                                     await Get.toNamed(Routes.LOGIN)
@@ -1424,7 +1502,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                   }
                                   if (auth == true) {
                                     controller.request.value = true;
-                                    Shop shop = Get.find<AuthService>().shop.value;
+                                    Shop shop =
+                                        Get.find<AuthService>().shop.value;
                                     List<ProdItem> prods = [];
                                     try {
                                       FB_Order fb_order = FB_Order();
@@ -1432,11 +1511,17 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                       fb_order.delevery_time =
                                           controller.dateinit;
                                       fb_order.total = controller.total.toInt();
-                                      fb_order.tax=shop.tax;
-                                      fb_order.totalWithTax=(controller.total.value+controller.total.value*shop.tax/100).toPrecision(2);
+                                      fb_order.tax = shop.tax;
+                                      fb_order.totalWithTax =
+                                          (controller.total.value +
+                                                  controller.total.value *
+                                                      shop.tax /
+                                                      100)
+                                              .toPrecision(2);
                                       fb_order.description =
                                           controller.booking.value.hint;
-                                      fb_order.phone = authService.user.value.phone;
+                                      fb_order.phone =
+                                          authService.user.value.phone;
                                       fb_order.state = 1;
                                       fb_order.items =
                                           controller.oneCart3.map((element) {
@@ -1475,7 +1560,13 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                           .catchError((e) {
                                         log("error 564 : " + e.toString());
                                       });
+                                      await controller.deleteCart("1");
                                       // Shop shpp=Shop(sellerName: "محمد",vaTnumber: "142345378352432",storeName: "طلي",storeAddress: "ibb-street",storeCity: "yemen",storePhone: "+967772537707")
+                                      Get.find<FireBaseMessagingService>()
+                                          .sendPushMessage(
+                                              " " + fb_order.phone + " ",
+                                              fb_order.description ?? "--");
+                                      Get.back();
                                       Get.to(() => FatoraView(prods));
                                     } catch (e) {
                                       log("error 564 : " + e.toString());
@@ -1490,7 +1581,12 @@ class BookEServiceView extends GetView<BookEServiceController> {
                                     log("auth= false");
                                   }
                                 }
-                              : null,
+                              : () {
+                                  Get.showSnackbar(Ui.ErrorSnackBar(
+                                      title: "Excuse".tr,
+                                      message: "Please select an order location"
+                                          .tr));
+                                },
                         ).paddingOnly(right: 20, left: 20);
                 }),
               ),

@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>971170347801-tfib8mqj2ndmchockhh1s9oo6m5jkqhu.apps.googleusercontent.com</string>
+	<string>1023264748938-9vcfh6hjcm65gm3fe1b4vhi4lu5krov9.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.971170347801-tfib8mqj2ndmchockhh1s9oo6m5jkqhu</string>
+	<string>com.googleusercontent.apps.1023264748938-9vcfh6hjcm65gm3fe1b4vhi4lu5krov9</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>971170347801-afn02ikeiv1g9a32pjo1atmcmrlotgg2.apps.googleusercontent.com</string>
+	<string>1023264748938-3gdu3pc00fvg5ieqvtbeup5vk2df1rqj.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBgoughHs5l2Fl7w7ue4iPR03tsMpeBeBA</string>
+	<string>AIzaSyDQGFowp4PsY2hqEmOeIT-xmMVXPBdY89U</string>
 	<key>GCM_SENDER_ID</key>
-	<string>971170347801</string>
+	<string>1023264748938</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.smartersvision.home-services</string>
+	<string>com.skylight.dhabihaapp</string>
 	<key>PROJECT_ID</key>
-	<string>homeservices-32da6</string>
+	<string>dhabiha-eaecf</string>
 	<key>STORAGE_BUCKET</key>
-	<string>homeservices-32da6.appspot.com</string>
+	<string>dhabiha-eaecf.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:971170347801:ios:5eb0a1bab3b55bf10aa388</string>
+	<string>1:1023264748938:ios:8df0671640d4d3925e4473</string>
 </dict>
 </plist>

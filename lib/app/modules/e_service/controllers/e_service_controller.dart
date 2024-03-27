@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +33,7 @@ class EServiceController extends GetxController {
     // eService.value = arguments['eService'] as EService;
     // heroTag.value = arguments['heroTag'] as String;
     Future.delayed(Duration(seconds: 3),(){
-      if(!Get.find<AuthService>().isAuth) {
+      if(!Get.find<AuthService>().isAuth&&!Platform.isIOS) {
       Get.offAndToNamed(Routes.SETTINGS_ADDRESS_PICKER);
     }else{
       // Get.toNamed(Routes.BOOK_E_SERVICE);

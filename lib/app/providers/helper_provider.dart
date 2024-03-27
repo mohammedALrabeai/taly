@@ -1,4 +1,5 @@
 // import 'dart:html';
+import 'dart:developer';
 import 'dart:io';
 
 import '../models/address_model.dart';
@@ -46,7 +47,13 @@ class DataBase{
       // await db.execute(
       //     """CREATE TABLE cart(Id INTEGER AUTO_INCREMENT [PRIMARY KEY],vendorStockId INTEGER, campaignId INTEGER, quantity INTEGER)""");
       await db.close();
-    });
+    }
+    ,onUpgrade: (db,oldVersion,newVersion) async {
+      log("Upgrading database from version " + oldVersion.toString() + " to " + newVersion.toString());
+      // await db.execute(
+      //   'ALTER TABLE ordere ADD COLUMN withcook TEXT DEFAULT 0, ADD COLUMN column2 INTEGER',
+      // );
+        });
   }
 
   // Future<int> saveItemCart(ItemCart item) async {

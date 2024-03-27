@@ -4,6 +4,7 @@ import 'parents/model.dart';
 class Product {
   String id;
   bool enabled = true;
+  bool kersh = false;
   String name;
   String img;
   String sub_name;
@@ -18,6 +19,7 @@ class Product {
       this.name,
       this.img,
       this.sub_name,
+      this.kersh,
       this.parts});
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -25,6 +27,7 @@ class Product {
         img: json["img"] == null ? null : json["img"],
         sub_name: json["sub_name"] == null ? null : json["sub_name"],
         enabled: json["enabled"] == null ? true : json["enabled"],
+    kersh: json["kersh"] == null ? false : json["kersh"],
         cuts: json["cuts"] == null
             ? []
             : List<String>.from(json["cuts"].map((x) => x)),
@@ -38,6 +41,7 @@ class Product {
         "sub_name": sub_name == null ? null : sub_name,
         "img": img == null ? null : img,
         "enabled": enabled == null ? true : enabled,
+        "kersh": kersh == null ? false : kersh,
         "cuts": cuts == null ? null : cuts,
         "parts": parts == null
             ? null
@@ -60,8 +64,9 @@ class Parts {
   bool enabled = true;
   int price;
   List<CustomPrice> c_price = <CustomPrice>[];
+  List<CustomKitchen> kitchens = <CustomKitchen>[];
 
-  Parts({this.name_part, this.enabled = true, this.price, this.c_price});
+  Parts({this.name_part, this.enabled = true, this.price, this.c_price, this.kitchens});
   factory Parts.fromJson(Map<String, dynamic> json) => Parts(
         name_part: json["name_part"] == null ? null : json["name_part"],
         enabled: json["enabled"] == null ? null : json["enabled"],
@@ -70,6 +75,10 @@ class Parts {
         ? []
         : List<CustomPrice>.from(
         json["c_price"].map((x) => CustomPrice.fromJson(x))),
+    kitchens: json["kitchens"] == null
+        ? []
+        : List<CustomKitchen>.from(
+        json["kitchens"].map((x) => CustomKitchen.fromJson(x))),
   );
 
   bool get hasData => name_part != null && price != null && enabled != false;
@@ -81,7 +90,10 @@ class Parts {
     "c_price": c_price == null
         ? null
         : List<dynamic>.from(c_price.map((x) => x.toJson())),
-      };
+    "kitchens": kitchens == null
+        ? null
+        : List<dynamic>.from(kitchens.map((x) => x.toJson())),
+  };
   @override
   bool operator ==(dynamic other) {
     return other.name_part == this.name_part && other.price == this.price;
@@ -98,6 +110,24 @@ class CustomPrice {
 
   CustomPrice({this.place_id, this.enabled = true, this.price});
   factory CustomPrice.fromJson(Map<String, dynamic> json) => CustomPrice(
+    place_id: json["place_id"] == null ? null : json["place_id"],
+    enabled: json["enabled"] == null ? null : json["enabled"],
+    price: json["price"] == null ? null : json["price"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "place_id": place_id == null ? null : place_id,
+    "enabled": enabled == null ? true : enabled,
+    "price": price == null ? null : price,
+  };
+}
+class CustomKitchen {
+  String place_id;
+  bool enabled = true;
+  int price;
+
+  CustomKitchen({this.place_id, this.enabled = true, this.price});
+  factory CustomKitchen.fromJson(Map<String, dynamic> json) => CustomKitchen(
     place_id: json["place_id"] == null ? null : json["place_id"],
     enabled: json["enabled"] == null ? null : json["enabled"],
     price: json["price"] == null ? null : json["price"],

@@ -30,11 +30,30 @@ class EServiceView extends GetView<EServiceController> {
         );
       } else {
         return Scaffold(
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
+          // backgroundColor: Color(0xffE3CB81),
           // bottomNavigationBar: buildBottomWidget(_eService),
           body: Stack(
             fit: StackFit.expand,
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  // color: Color(0xffF4841F),
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                          Color(0xffE3CC82),
+                          Color(0xffE8D588),
+                          // Color(0xffF4841F),
+                          // Color(0xffF4841F),
+                          // Color(0xffee9d54),
+                          // Color(0xfff5af72),
+
+                          Color(0xffE9D287),
+                        ]),
+             ),
+              ),
               // Image.asset("assets/img/background.jpg",fit: BoxFit.fill,),
               SafeArea(
                 child: Column(
@@ -42,8 +61,8 @@ class EServiceView extends GetView<EServiceController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset("assets/img/icon3.png",height: 150,).paddingSymmetric(horizontal: 20,vertical: 20),
-                    CupertinoActivityIndicator(),
+                    Image.asset("assets/icon/icon4.png",height: 150,).paddingSymmetric(horizontal: 20,vertical: 20),
+                    CupertinoActivityIndicator(radius: 20,),
                     // SizedBox(height: 10),
                     // buildCategories(_eService),
                     // Row(

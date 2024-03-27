@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class AddressPickerView extends StatelessWidget {
     return PlacePicker(
       apiKey: Get.find<SettingsService>().setting.value.googleMapsKey,
       initialPosition: Get.find<SettingsService>().address.value.getLatLng(),
-      useCurrentLocation: true,
+      useCurrentLocation: Platform.isIOS?false:true,
       selectInitialPosition: true,
       usePlaceDetailSearch: true,
       forceSearchOnZoomChanged: true,

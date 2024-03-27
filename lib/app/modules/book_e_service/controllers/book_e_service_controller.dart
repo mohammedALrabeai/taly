@@ -12,6 +12,7 @@ import '../../../models/address_model.dart';
 import '../../../models/booking_model.dart';
 import '../../../models/coupon_model.dart';
 import '../../../models/e_service_model.dart';
+import '../../../models/kitchen.dart';
 import '../../../models/my_order_model.dart';
 import '../../../models/option_model.dart';
 import '../../../models/products_model.dart';
@@ -22,12 +23,16 @@ import '../../../routes/app_routes.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/settings_service.dart';
 import '../../bookings/controllers/bookings_controller.dart';
+import '../../e_service/controllers/products_controller.dart';
 import '../../global_widgets/block_button_widget.dart';
 import '../../global_widgets/tab_bar_widget.dart';
+import '../views/kitchen_dialog.dart';
 
 class BookEServiceController extends GetxController {
   final scheduled = false.obs;
-
+  RxList<Kitchen> get kitchens => Get.find<SettingsService>().kitchens;
+  RxList<Product> get productslist => Get.find<ProductsController>().products;
+  final selectedKitchen = Kitchen().obs;
   final booking = Booking().obs;
   final addresses = <Address>[].obs;
   BookingRepository _bookingRepository;
@@ -195,7 +200,7 @@ class BookEServiceController extends GetxController {
   }
 
   refreshHome() async {
-    await getDiary();
+    // await getDiary();
     await getAddress();
     await getThisOrder("1", false);
   }
@@ -389,7 +394,7 @@ class BookEServiceController extends GetxController {
       total.value = total.value +
           int.parse(oneCart3[i].much) * double.parse(oneCart3[i].price);
     }
-    ;
+
   }
 
   void decrementQuantity(String id, int index) {
@@ -717,5 +722,50 @@ class BookEServiceController extends GetxController {
             ],
           )),
     );
+  }
+
+  Future<void> openKitchenDialog() async {
+    await Get.generalDialog(
+      // context: context,
+        pageBuilder: (BuildContext context, h, k) {
+          return AlertDialog(
+            title: Text(
+              "Choose the kitchen and then select the items you want to cook".tr,
+              textAlign: TextAlign.center,
+            ),
+            contentPadding: EdgeInsets.zero,
+            content: KitchenDialog(),
+            actions: [
+              BlockButtonWidget(
+
+                color: Colors.grey,
+                text: Text("Back".tr), onPressed: () { Get.back(result: false);},),
+              // ButtonWidget(
+              //   width: Get.width / 2 + 10,
+              //   onTap: () => Get.back(result: false),
+              //   color: const Color(0xffd0c884),
+              //   child: Text(
+              //     "cancel",
+              //     style: Get.textTheme.button,
+              //   ),
+              // ),
+            ],
+          );
+        });
+  }
+
+ double getKitchen(MyOrder element) {
+    var kitchen_price=0.0;
+    var pro=productslist.firstWhereOrNull((p )=> p.id == element.id_food);
+    if(pro!=null) {
+      var part=pro.parts.firstWhereOrNull((p1) => p1.name_part==element.part_id);
+      if(part!=null) {
+        var kit=part.kitchens.firstWhereOrNull((p2) => p2.place_id==selectedKitchen.value.id);
+        if(kit!=null) {
+          kitchen_price=kit.price.toDouble();
+        }
+      }
+    }
+    return kitchen_price;
   }
 }

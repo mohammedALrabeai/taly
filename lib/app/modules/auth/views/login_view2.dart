@@ -45,12 +45,15 @@ class LoginView2 extends GetView<LoginController2> {
                 ),
 
                  Text(
-                  'Login '.tr,
+                  'Login'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25),
                 ),
                 const SizedBox(height: 20,),
-                Image.asset("assets/img/icon3.png").paddingSymmetric(horizontal: 20,vertical: 20),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset("assets/icon/icon4.png",height: 150,)),
+             SizedBox(height: 20,),
              Obx(() =>controller.steps.value==3? OtpView():  LoginV())
               ],
             ).paddingOnly(left: 10),

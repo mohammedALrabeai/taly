@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../common/ui.dart';
 import '../models/address_model.dart';
 import '../models/city_model.dart';
+import '../models/kitchen.dart';
 import '../models/setting_model.dart';
 import '../modules/e_service/views/e_service_view2.dart';
 import '../repositories/setting_repository.dart';
@@ -52,8 +53,10 @@ class SettingsService extends GetxService {
 
   loopCity() {
     getCities();
+    getKitchens();
     Future.delayed(Duration(minutes: 5), () async {
       getCities();
+      getKitchens();
       log("..");
     });
   }
@@ -67,6 +70,7 @@ class SettingsService extends GetxService {
     }
   }
   var cities=<City>[].obs;
+  var kitchens=<Kitchen>[].obs;
   void getCities() {
     // cities.clear();
 
@@ -82,6 +86,26 @@ class SettingsService extends GetxService {
         return r;
       }).toList();
       cities.refresh();
+      return;
+    }).catchError((e) {
+      log(e.toString());
+    });
+  }
+  void getKitchens() {
+    // cities.clear();
+
+    FirebaseFirestore.instance
+        .collection('kitchen')
+    // .where('created_by', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      kitchens.value = value.docs.map((e) {
+        log(e.data().toString());
+        var r=  Kitchen.fromJson(e.data());
+        r.id=e.id;
+        return r;
+      }).toList();
+      kitchens.refresh();
       return;
     }).catchError((e) {
       log(e.toString());

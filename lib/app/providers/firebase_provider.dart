@@ -15,6 +15,7 @@ class FirebaseProvider extends GetxService {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<FirebaseProvider> init() async {
+    // _auth.setSettings()
     return this;
   }
 

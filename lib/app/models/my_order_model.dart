@@ -21,6 +21,9 @@ class MyOrder{
      String price;
      String url;
 
+  bool withcook=false;
+  num cook_price=0.0;
+
  MyOrder(  {
       this.id,
       this.id_rest,

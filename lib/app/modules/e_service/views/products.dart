@@ -139,21 +139,17 @@ class ProductView extends GetView<ProductsController> {
               //     ],
               //   ),
               // ),
-              Obx(
-                () => Expanded(
-                  child: ListView(
-                    children: [
-                      controller.isLoading.value
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.deepOrange,
-                              ),
-                            )
-                          : GridItemView(
-                              controller.products,
-                            ),
-                    ],
-                  ),
+              Expanded(
+                child: Obx(
+                  () => controller.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.deepOrange,
+                          ),
+                        )
+                      : GridItemView(
+                          controller.products,
+                        ),
                 ),
               )
             ],

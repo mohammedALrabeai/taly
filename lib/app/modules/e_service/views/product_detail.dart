@@ -252,68 +252,70 @@ class ProductDetails extends GetView<ProductDetailController> {
 
                     // const SizedBox(height: 10),
                     Obx(() {
-                      return Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                          padding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                          // decoration: Ui.getBoxDecoration(),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "الكرش والمصران".tr,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Row(children: [
-                                  SizedBox(width: 20),
-                                  // RadioListTile(value: controller.radval.value,groupValue: 1, onChanged: (value){}),
-                                  Radio<int>(
-                                    value: 1,
-                                    groupValue: controller.radval.value,
-                                    onChanged: (value) {
-                                      controller.radval.value = value;
-                                    },
-                                    autofocus: true,
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "Yes".tr,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
+                      return !controller.productDetails.value.kersh
+                          ? Container()
+                          : Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 5),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 0),
+                              // decoration: Ui.getBoxDecoration(),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "الكرش والمصران".tr,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  )),
+                                    Row(children: [
+                                      SizedBox(width: 20),
+                                      // RadioListTile(value: controller.radval.value,groupValue: 1, onChanged: (value){}),
+                                      Radio<int>(
+                                        value: 1,
+                                        groupValue: controller.radval.value,
+                                        onChanged: (value) {
+                                          controller.radval.value = value;
+                                        },
+                                        autofocus: true,
+                                      ),
+                                      Expanded(
+                                          child: Text(
+                                        "Yes".tr,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      )),
 
-                                  Radio<int>(
-                                    value: 2,
-                                    groupValue: controller.radval.value,
-                                    onChanged: (value) {
-                                      controller.radval.value = value;
-                                    },
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "No".tr,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  )),
-                                  SizedBox(width: 4),
-                                  // MaterialButton(
-                                  //   padding: EdgeInsets.symmetric(
-                                  //       vertical: 10, horizontal: 14),
-                                  //   onPressed: () {
-                                  //     Get.toNamed(
-                                  //         Routes.SETTINGS_ADDRESS_PICKER);
-                                  //   },
-                                  // )
-                                ])
-                              ]));
+                                      Radio<int>(
+                                        value: 2,
+                                        groupValue: controller.radval.value,
+                                        onChanged: (value) {
+                                          controller.radval.value = value;
+                                        },
+                                      ),
+                                      Expanded(
+                                          child: Text(
+                                        "No".tr,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      )),
+                                      SizedBox(width: 4),
+                                      // MaterialButton(
+                                      //   padding: EdgeInsets.symmetric(
+                                      //       vertical: 10, horizontal: 14),
+                                      //   onPressed: () {
+                                      //     Get.toNamed(
+                                      //         Routes.SETTINGS_ADDRESS_PICKER);
+                                      //   },
+                                      // )
+                                    ])
+                                  ]));
                     }),
                     const SizedBox(height: 10),
 
@@ -387,7 +389,6 @@ class ProductDetails extends GetView<ProductDetailController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-
         Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -407,7 +408,8 @@ class ProductDetails extends GetView<ProductDetailController> {
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.horizontal(left: Radius.circular(10))),
-                child: Icon(Icons.remove, color: Get.theme.primaryColor, size: 28),
+                child:
+                    Icon(Icons.remove, color: Get.theme.primaryColor, size: 28),
                 elevation: 0,
               ),
               SizedBox(
@@ -441,13 +443,14 @@ class ProductDetails extends GetView<ProductDetailController> {
         ),
         Row(
           children: [
-            Obx(()=> Text(
-              '${controller.getprice(controller.selectPart.value)}',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+            Obx(
+              () => Text(
+                '${controller.getprice(controller.selectPart.value)}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
-            ),
             ),
             const SizedBox(
               width: 2,
